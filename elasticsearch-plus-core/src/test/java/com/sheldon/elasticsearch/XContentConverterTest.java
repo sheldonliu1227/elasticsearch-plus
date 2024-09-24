@@ -11,8 +11,6 @@ import java.io.IOException;
 public class XContentConverterTest {
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
-
         try {
             TestDocument testDocument = TestDocument.class.newInstance();
             XContentBuilder builder = XContentConverter.object2Builder(testDocument);
