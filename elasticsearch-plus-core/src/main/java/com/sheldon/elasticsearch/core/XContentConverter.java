@@ -64,11 +64,12 @@ public class XContentConverter {
         for (Field field : clazz.getDeclaredFields()) {
             MappingDefinition fieldMappingDefinition = getFieldMappingDefinition(field);
             if (fieldMappingDefinition != null) {
-                mappingDefinitions.add(fieldMappingDefinition);
+                addMappingDefinition(mappingDefinitions, fieldMappingDefinition);
             }
         }
         if (clazz.getSuperclass() != null && AbstractBaseObject.class.isAssignableFrom(clazz.getSuperclass())) {
-            mappingDefinitions.addAll(getFieldMappingDefinitions((Class<? extends AbstractBaseObject>) clazz.getSuperclass()));
+            List<MappingDefinition> fieldMappingDefinitions = getFieldMappingDefinitions((Class<? extends AbstractBaseObject>) clazz.getSuperclass());
+            addMappingDefinition(mappingDefinitions, fieldMappingDefinitions.toArray(new MappingDefinition[0]));
         }
         return mappingDefinitions;
     }
@@ -153,5 +154,21 @@ public class XContentConverter {
             }
         }
         throw new ClassInaccuracyException("annotation is not NormalField or its meta-annotation");
+    }
+
+    public static void addMappingDefinition(List<MappingDefinition> mappingDefinitions, MappingDefinition... news) {
+        if (news == null) return;
+        for (MappingDefinition mappingDefinition : news) {
+            boolean isExist = false;
+            for (int i = mappingDefinitions.size() - 1; i >= 0; i--) {
+                if (Objects.equals(mappingDefinitions.get(i).getKey(), mappingDefinition.getKey())) {
+                    isExist = true;
+                    break;
+                }
+            }
+            if (!isExist) {
+                mappingDefinitions.add(mappingDefinition);
+            }
+        }
     }
 }

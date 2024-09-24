@@ -1,10 +1,13 @@
 package com.sheldon.elasticsearch.core.mapping;
 
+import com.sheldon.elasticsearch.core.XContentConverter;
 import com.sheldon.elasticsearch.core.constant.MappingEnum;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class MappingDefinition {
     private final String key;
@@ -35,12 +38,13 @@ public class MappingDefinition {
     }
 
     public void addChild(MappingDefinition child) {
-        if (child == null) return;
-        children.add(child);
+        XContentConverter.addMappingDefinition(children, child);
     }
 
     public void addAll(Collection<MappingDefinition> cr) {
-        children.addAll(cr);
+        for (MappingDefinition mappingDefinition : cr) {
+            addChild(mappingDefinition);
+        }
     }
 
     public void clearChildren() {

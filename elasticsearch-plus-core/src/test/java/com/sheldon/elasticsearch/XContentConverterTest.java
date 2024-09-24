@@ -12,7 +12,7 @@ public class XContentConverterTest {
 
     public static void main(String[] args) {
         try {
-            TestDocument testDocument = TestDocument.class.newInstance();
+            Test2Document testDocument = Test2Document.class.newInstance();
             XContentBuilder builder = XContentConverter.object2Builder(testDocument);
             System.out.println(Strings.toString(builder));
         } catch (InstantiationException e) {

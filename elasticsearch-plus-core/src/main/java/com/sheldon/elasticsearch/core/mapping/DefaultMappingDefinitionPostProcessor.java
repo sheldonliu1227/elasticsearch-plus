@@ -1,5 +1,6 @@
 package com.sheldon.elasticsearch.core.mapping;
 
+import com.sheldon.elasticsearch.core.XContentConverter;
 import com.sheldon.elasticsearch.core.exception.ClassInaccuracyException;
 
 import java.lang.reflect.Field;
@@ -15,7 +16,7 @@ public class DefaultMappingDefinitionPostProcessor implements MappingDefinitionP
         for (Field declaredField : field.getType().getDeclaredFields()) {
             try {
                 MappingDefinition fieldMappingDefinition = getFieldMappingDefinition(declaredField);
-                mappingDefinitions.add(fieldMappingDefinition);
+                XContentConverter.addMappingDefinition(mappingDefinitions, fieldMappingDefinition);
             } catch (Exception e) {
                 throw new ClassInaccuracyException(e);
             }
