@@ -5,12 +5,16 @@
   <groupId>com.sheldon</groupId>
   <artifactId>elasticsearch-plus</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
 
   <name>elasticsearch-plus</name>
   <url>http://maven.apache.org</url>
+    <modules>
+        <module>elasticsearch-plus-core</module>
+      <module>elasticsearch-plus-spring-boot-starter</module>
+    </modules>
 
-  <properties>
+    <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
