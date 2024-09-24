@@ -14,7 +14,8 @@ public class DefaultMappingDefinitionPostProcessor implements MappingDefinitionP
         List<MappingDefinition> mappingDefinitions = new ArrayList<>();
         for (Field declaredField : field.getType().getDeclaredFields()) {
             try {
-                mappingDefinitions.add(getFieldMappingDefinition(declaredField));
+                MappingDefinition fieldMappingDefinition = getFieldMappingDefinition(declaredField);
+                mappingDefinitions.add(fieldMappingDefinition);
             } catch (Exception e) {
                 throw new ClassInaccuracyException(e);
             }

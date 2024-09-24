@@ -35,6 +35,7 @@ public class MappingDefinition {
     }
 
     public void addChild(MappingDefinition child) {
+        if (child == null) return;
         children.add(child);
     }
 

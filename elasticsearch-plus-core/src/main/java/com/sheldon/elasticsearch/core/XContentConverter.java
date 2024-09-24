@@ -62,7 +62,13 @@ public class XContentConverter {
     private static List<MappingDefinition> getFieldMappingDefinitions(Class<? extends AbstractBaseObject> clazz) throws ClassInaccuracyException, InstantiationException, IllegalAccessException {
         List<MappingDefinition> mappingDefinitions = new ArrayList<>();
         for (Field field : clazz.getDeclaredFields()) {
-            mappingDefinitions.add(getFieldMappingDefinition(field));
+            MappingDefinition fieldMappingDefinition = getFieldMappingDefinition(field);
+            if (fieldMappingDefinition != null) {
+                mappingDefinitions.add(fieldMappingDefinition);
+            }
+        }
+        if (clazz.getSuperclass() != null && AbstractBaseObject.class.isAssignableFrom(clazz.getSuperclass())) {
+            mappingDefinitions.addAll(getFieldMappingDefinitions((Class<? extends AbstractBaseObject>) clazz.getSuperclass()));
         }
         return mappingDefinitions;
     }
@@ -71,7 +77,11 @@ public class XContentConverter {
 
     public static MappingDefinition getFieldMappingDefinition(Field field) throws ClassInaccuracyException, InstantiationException, IllegalAccessException {
         Annotation[] annotations = field.getDeclaredAnnotations();
-        Annotation annotation = Arrays.stream(annotations).filter(a -> isTargetOrMetaAnnotation(a, NormalField.class)).findFirst().get();
+        Optional<Annotation> first = Arrays.stream(annotations).filter(a -> isTargetOrMetaAnnotation(a, NormalField.class)).findFirst();
+        if (!first.isPresent()) {
+            return null;
+        }
+        Annotation annotation = first.get();
         NormalField normalField = getNormalField(annotation);
 
         MappingEnum mappingEnum = MappingEnum.getMappingEnum(field.getType(), normalField.fieldType());
