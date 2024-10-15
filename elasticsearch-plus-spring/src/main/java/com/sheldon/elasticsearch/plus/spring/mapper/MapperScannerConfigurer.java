@@ -13,16 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.mybatis.spring.mapper;
+package com.sheldon.elasticsearch.plus.spring.mapper;
 
-import static org.springframework.util.Assert.notNull;
-
-import java.lang.annotation.Annotation;
-import java.util.Map;
-import java.util.Optional;
-
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionTemplate;
+import co.elastic.clients.elasticsearch.ElasticsearchAsyncClient;
 import org.springframework.beans.PropertyValue;
 import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.BeanNameAware;
@@ -40,6 +33,12 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
+
+import java.lang.annotation.Annotation;
+import java.util.Map;
+import java.util.Optional;
+
+import static org.springframework.util.Assert.notNull;
 
 /**
  * BeanDefinitionRegistryPostProcessor that searches recursively starting from a base package for interfaces and
@@ -97,13 +96,9 @@ public class MapperScannerConfigurer
 
   private String lazyInitialization;
 
-  private SqlSessionFactory sqlSessionFactory;
+  private String elasticSearchAsyncClientName;
 
-  private SqlSessionTemplate sqlSessionTemplate;
-
-  private String sqlSessionFactoryBeanName;
-
-  private String sqlSessionTemplateBeanName;
+  private ElasticsearchAsyncClient elasticsearchAsyncClient;
 
   private Class<? extends Annotation> annotationClass;
 
@@ -191,66 +186,8 @@ public class MapperScannerConfigurer
     this.markerInterface = superClass;
   }
 
-  /**
-   * Specifies which {@code SqlSessionTemplate} to use in the case that there is more than one in the spring context.
-   * Usually this is only needed when you have more than one datasource.
-   * <p>
-   *
-   * @deprecated Use {@link #setSqlSessionTemplateBeanName(String)} instead
-   *
-   * @param sqlSessionTemplate
-   *          a template of SqlSession
-   */
-  @Deprecated
-  public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
-    this.sqlSessionTemplate = sqlSessionTemplate;
-  }
-
-  /**
-   * Specifies which {@code SqlSessionTemplate} to use in the case that there is more than one in the spring context.
-   * Usually this is only needed when you have more than one datasource.
-   * <p>
-   * Note bean names are used, not bean references. This is because the scanner loads early during the start process and
-   * it is too early to build mybatis object instances.
-   *
-   * @since 1.1.0
-   *
-   * @param sqlSessionTemplateName
-   *          Bean name of the {@code SqlSessionTemplate}
-   */
-  public void setSqlSessionTemplateBeanName(String sqlSessionTemplateName) {
-    this.sqlSessionTemplateBeanName = sqlSessionTemplateName;
-  }
-
-  /**
-   * Specifies which {@code SqlSessionFactory} to use in the case that there is more than one in the spring context.
-   * Usually this is only needed when you have more than one datasource.
-   * <p>
-   *
-   * @deprecated Use {@link #setSqlSessionFactoryBeanName(String)} instead.
-   *
-   * @param sqlSessionFactory
-   *          a factory of SqlSession
-   */
-  @Deprecated
-  public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
-    this.sqlSessionFactory = sqlSessionFactory;
-  }
-
-  /**
-   * Specifies which {@code SqlSessionFactory} to use in the case that there is more than one in the spring context.
-   * Usually this is only needed when you have more than one datasource.
-   * <p>
-   * Note bean names are used, not bean references. This is because the scanner loads early during the start process and
-   * it is too early to build mybatis object instances.
-   *
-   * @since 1.1.0
-   *
-   * @param sqlSessionFactoryName
-   *          Bean name of the {@code SqlSessionFactory}
-   */
-  public void setSqlSessionFactoryBeanName(String sqlSessionFactoryName) {
-    this.sqlSessionFactoryBeanName = sqlSessionFactoryName;
+  public void setElasticsearchAsyncClient(ElasticsearchAsyncClient elasticsearchAsyncClient) {
+    this.elasticsearchAsyncClient = elasticsearchAsyncClient;
   }
 
   /**
@@ -364,10 +301,8 @@ public class MapperScannerConfigurer
     scanner.setAddToConfig(this.addToConfig);
     scanner.setAnnotationClass(this.annotationClass);
     scanner.setMarkerInterface(this.markerInterface);
-    scanner.setSqlSessionFactory(this.sqlSessionFactory);
-    scanner.setSqlSessionTemplate(this.sqlSessionTemplate);
-    scanner.setSqlSessionFactoryBeanName(this.sqlSessionFactoryBeanName);
-    scanner.setSqlSessionTemplateBeanName(this.sqlSessionTemplateBeanName);
+    scanner.setElasticsearchAsyncClientName(this.elasticSearchAsyncClientName);
+    scanner.setElasticsearchAsyncClient(this.elasticsearchAsyncClient);
     scanner.setResourceLoader(this.applicationContext);
     scanner.setBeanNameGenerator(this.nameGenerator);
     scanner.setMapperFactoryBeanClass(this.mapperFactoryBeanClass);
@@ -409,15 +344,12 @@ public class MapperScannerConfigurer
       PropertyValues values = mapperScannerBean.getPropertyValues();
 
       this.basePackage = getPropertyValue("basePackage", values);
-      this.sqlSessionFactoryBeanName = getPropertyValue("sqlSessionFactoryBeanName", values);
-      this.sqlSessionTemplateBeanName = getPropertyValue("sqlSessionTemplateBeanName", values);
+      this.elasticSearchAsyncClientName = getPropertyValue("elasticSearchAsyncClientName", values);
       this.lazyInitialization = getPropertyValue("lazyInitialization", values);
       this.defaultScope = getPropertyValue("defaultScope", values);
     }
     this.basePackage = Optional.ofNullable(this.basePackage).map(getEnvironment()::resolvePlaceholders).orElse(null);
-    this.sqlSessionFactoryBeanName = Optional.ofNullable(this.sqlSessionFactoryBeanName)
-        .map(getEnvironment()::resolvePlaceholders).orElse(null);
-    this.sqlSessionTemplateBeanName = Optional.ofNullable(this.sqlSessionTemplateBeanName)
+    this.elasticSearchAsyncClientName = Optional.ofNullable(this.elasticSearchAsyncClientName)
         .map(getEnvironment()::resolvePlaceholders).orElse(null);
     this.lazyInitialization = Optional.ofNullable(this.lazyInitialization).map(getEnvironment()::resolvePlaceholders)
         .orElse(null);

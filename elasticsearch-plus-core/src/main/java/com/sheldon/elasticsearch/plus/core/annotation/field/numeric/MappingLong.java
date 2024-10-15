@@ -8,9 +8,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@ElasticSearchField(
-    type = "long" ,
-    javaType = {java.lang.Long.class,  java.lang.Long[].class, long.class, long[].class}
-)
-public @interface Long {
+@ElasticSearchField(type = "long")
+public @interface MappingLong {
 }

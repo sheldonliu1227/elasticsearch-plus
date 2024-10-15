@@ -8,9 +8,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@ElasticSearchField(
-    type = "integer" ,
-    javaType = {java.lang.Integer.class,  java.lang.Integer[].class, int.class, int[].class}
-)
-public @interface Integer {
+@ElasticSearchField(type = "integer")
+public @interface MappingInteger {
 }

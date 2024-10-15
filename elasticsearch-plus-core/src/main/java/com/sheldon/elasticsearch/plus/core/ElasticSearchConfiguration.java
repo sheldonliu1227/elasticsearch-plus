@@ -1,6 +1,6 @@
-package com.sheldon.elasticsearch.core;
+package com.sheldon.elasticsearch.plus.core;
 
-import com.sheldon.elasticsearch.core.binding.MapperRegistry;
+import com.sheldon.elasticsearch.plus.core.binding.MapperRegistry;
 
 public class ElasticSearchConfiguration {
     private String[] hosts;

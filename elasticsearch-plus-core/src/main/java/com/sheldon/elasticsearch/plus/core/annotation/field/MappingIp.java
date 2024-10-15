@@ -6,8 +6,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@ElasticSearchField(type = "ip", javaType = String.class)
-public @interface Ip {
+@ElasticSearchField(type = "ip")
+public @interface MappingIp {
     double boost() default 1.0;
 
     boolean doc_values() default true;

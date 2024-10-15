@@ -1,6 +1,6 @@
-package com.sheldon.elasticsearch.core.loader;
+package com.sheldon.elasticsearch.plus.core.loader;
 
-import com.sheldon.elasticsearch.core.ElasticSearchConfiguration;
+import com.sheldon.elasticsearch.plus.core.ElasticSearchConfiguration;
 
 public class XmlConfigurationLoader implements ConfigurationLoader {
     @Override

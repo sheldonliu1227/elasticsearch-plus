@@ -1,4 +1,4 @@
-package com.sheldon.elasticsearch.plus.core.annotation.field.meta;
+package com.sheldon.elasticsearch.plus.core.annotation.field.parameter;
 
 import java.lang.annotation.*;
 
@@ -14,5 +14,6 @@ import java.lang.annotation.*;
 @Inherited
 public @interface IndexPrefixes {
     int minChars() default 2;
+
     int maxChars() default 5;
 }

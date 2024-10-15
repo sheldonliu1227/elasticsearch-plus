@@ -1,4 +1,4 @@
-package com.sheldon.elasticsearch.core.query;
+package com.sheldon.elasticsearch.plus.core.query;
 
 
 import org.elasticsearch.search.aggregations.Aggregation;

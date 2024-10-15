@@ -1,13 +1,15 @@
-package com.sheldon.elasticsearch.configuration;
+package com.sheldon.elasticsearch.plus.configuration;
 
 import co.elastic.clients.elasticsearch.ElasticsearchAsyncClient;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
+import com.sheldon.elasticsearch.plus.core.constant.Constants;
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +19,7 @@ import java.util.List;
 
 @Configuration
 @EnableConfigurationProperties(ElasticSearchPlusProperties.class)
+@ConditionalOnProperty(prefix = Constants.ELASTICSEARCH_PLUS, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class ElasticSearchPlusAutoConfiguration {
     private static final Logger log = LoggerFactory.getLogger(ElasticSearchPlusAutoConfiguration.class);
 

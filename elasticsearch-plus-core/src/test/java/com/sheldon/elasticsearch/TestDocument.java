@@ -1,9 +1,13 @@
 package com.sheldon.elasticsearch;
 
-import com.sheldon.elasticsearch.core.AbstractBaseObject;
-import com.sheldon.elasticsearch.core.constant.FieldTypeEnum;
-import com.sheldon.elasticsearch.core.constant.RollOverTypeEnum;
-import com.sheldon.elasticsearch.core.annotation.*;
+import com.sheldon.elasticsearch.plus.core.AbstractBaseObject;
+import com.sheldon.elasticsearch.plus.core.annotation.Document;
+import com.sheldon.elasticsearch.plus.core.annotation.DocumentAlias;
+import com.sheldon.elasticsearch.plus.core.annotation.field.*;
+import com.sheldon.elasticsearch.plus.core.annotation.field.numeric.MappingInteger;
+import com.sheldon.elasticsearch.plus.core.annotation.field.numeric.MappingShort;
+import com.sheldon.elasticsearch.plus.core.annotation.field.parameter.IndexPrefixes;
+import com.sheldon.elasticsearch.plus.core.constant.RollOverTypeEnum;
 
 import java.util.Date;
 import java.util.List;
@@ -11,48 +15,36 @@ import java.util.Map;
 
 @Document(
         indexName = "test_index",
-        alias = @Alias(indexAlias = "test_alias", rollOverType = RollOverTypeEnum.DAY)
+        alias = @DocumentAlias(indexAlias = "test_alias", rollOverType = RollOverTypeEnum.DAY)
 )
 public class TestDocument extends AbstractBaseObject {
-    @NormalField(fieldType = FieldTypeEnum.KEYWORD)
+    @MappingKeyWord
     private String name;
 
-    @NormalField(fieldType = FieldTypeEnum.TEXT)
+    @MappingText(analyzer = "whitespace", index = false, index_prefixes = @IndexPrefixes(minChars = 3))
     private String remark;
 
-    @ObjectMappingDefinitionField
+    @MappingObject
     private Demo demo;
 
-    @NestedMappingDefinitionField(nestedClass = Demo.class)
+    @MappingNested
     private List<Demo> demoList;
 
-    @NestedMappingDefinitionField(nestedClass = Demo.class)
+    @MappingNested
     private Demo[] demoArray;
 
-    @ObjectMappingDefinitionField(processor = MapProcessor.class)
+    @MappingObject(child = CustomParser.class)
     private Map<String, Object> testMap;
 
 
     public static class Demo {
-        @NormalField(fieldType = FieldTypeEnum.SHORT)
+        @MappingShort
         private Short aShort;
 
-        @NormalField(fieldType = FieldTypeEnum.INTEGER)
+        @MappingInteger
         private Integer anInt;
 
-        @NormalField(fieldType = FieldTypeEnum.LONG_RANGE)
-        private Long aLong;
-
-        @NormalField(fieldType = FieldTypeEnum.FLOAT_RANGE)
-        private Float aFloat;
-
-        @NormalField(fieldType = FieldTypeEnum.DOUBLE_RANGE)
-        private Double aDouble;
-
-        @NormalField(fieldType = FieldTypeEnum.BOOLEAN)
-        private Boolean aBoolean;
-
-        @NormalField(fieldType = FieldTypeEnum.DATE_RANGE, fieldFormat = "yyyy-MM-dd HH:mm:ss")
+        @MappingDate(format = "yyyy-MM-dd HH:mm:ss")
         private Date date;
     }
 }

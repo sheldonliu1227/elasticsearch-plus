@@ -6,11 +6,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@ElasticSearchField(
-        type = "date",
-        javaType = {java.util.Date.class, String.class, java.util.Date[].class, String[].class}
-)
-public @interface Date {
+@ElasticSearchField(type = "date")
+public @interface MappingDate {
     double boost() default 1.0;
 
     boolean doc_values() default true;

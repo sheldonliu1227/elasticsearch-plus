@@ -1,6 +1,6 @@
-package com.sheldon.elasticsearch.configuration;
+package com.sheldon.elasticsearch.plus.configuration;
 
-import com.sheldon.elasticsearch.core.constant.Constants;
+import com.sheldon.elasticsearch.plus.core.constant.Constants;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;

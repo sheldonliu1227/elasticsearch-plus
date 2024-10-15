@@ -1,7 +1,7 @@
-package com.sheldon.elasticsearch.core;
+package com.sheldon.elasticsearch.plus.core;
 
-import com.sheldon.elasticsearch.core.query.Pageable;
-import com.sheldon.elasticsearch.core.query.QueryWrapper;
+import com.sheldon.elasticsearch.plus.core.query.Pageable;
+import com.sheldon.elasticsearch.plus.core.query.QueryWrapper;
 
 import java.util.concurrent.Future;
 

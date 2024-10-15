@@ -1,4 +1,4 @@
-package com.sheldon.elasticsearch.core.constant;
+package com.sheldon.elasticsearch.plus.core.constant;
 
 /**
  * 动态映射类型

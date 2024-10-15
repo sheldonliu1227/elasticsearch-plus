@@ -6,8 +6,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@ElasticSearchField(type = "geo_point", javaType = String.class)
-public @interface GeoPoint {
+@ElasticSearchField(type = "geo_point")
+public @interface MappingGeoPoint {
 
     boolean ignore_malformed() default false;
 

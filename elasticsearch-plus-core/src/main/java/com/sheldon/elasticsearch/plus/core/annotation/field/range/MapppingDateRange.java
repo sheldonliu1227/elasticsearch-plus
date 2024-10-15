@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 @ElasticSearchField(type = "date_range", javaType = {java.util.Date[].class})
-public @interface DateRange {
+public @interface MapppingDateRange {
     double boost() default 1.0;
 
     boolean doc_values() default true;

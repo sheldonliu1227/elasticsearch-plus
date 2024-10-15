@@ -1,10 +1,10 @@
-package com.sheldon.elasticsearch.core.constant;
+package com.sheldon.elasticsearch.plus.core.constant;
 
 
 import cn.hutool.core.date.DateUtil;
 
 import java.util.Date;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,34 +12,28 @@ import java.util.regex.Pattern;
  * 索引滚动类型
  */
 public enum RollOverTypeEnum {
-    NULL("", null, null),
-    DAY("_d_yyyyMMdd", d -> DateUtil.offsetDay(d, 1), d -> DateUtil.offsetDay(d, -1)),
-    WEEK("_w_yyyyMMw", d -> DateUtil.offsetWeek(d, 1), d -> DateUtil.offsetWeek(d, -1)),
-    MONTH("_m_yyyyMM", d -> DateUtil.offsetMonth(d, 1), d -> DateUtil.offsetMonth(d, -1)),
-    YEAR("_y_yyyy", d -> DateUtil.offsetMonth(d, 12), d -> DateUtil.offsetMonth(d, -12)),
+    NULL("", null),
+    DAY("_d_yyyyMMdd", (date, direction) -> DateUtil.offsetDay(date, direction ? 1 : -1)),
+    WEEK("_w_yyyyMMw", (date, direction) -> DateUtil.offsetWeek(date, direction ? 1 : -1)),
+    MONTH("_m_yyyyMM", (date, direction) -> DateUtil.offsetMonth(date, direction ? 1 : -1)),
+    YEAR("_y_yyyy", (date, direction) -> DateUtil.offsetMonth(date, direction ? 12 : -12)),
     ;
 
     private static final Pattern DATE_PATTERN = Pattern.compile("_\\(*\\)$");
     private final String format;
-    private final Function<Date, Date> next;
-    private final Function<Date, Date> prev;
+    private final BiFunction<Date, Boolean, Date> offset;
 
-    RollOverTypeEnum(String format, Function<Date, Date> next, Function<Date, Date> prev) {
+    RollOverTypeEnum(String format, BiFunction<Date, Boolean, Date> offset) {
         this.format = format;
-        this.next = next;
-        this.prev = prev;
+        this.offset = offset;
     }
 
     public String getFormat() {
         return format;
     }
 
-    public Function<Date, Date> getNext() {
-        return next;
-    }
-
-    public Function<Date, Date> getPrev() {
-        return prev;
+    public BiFunction<Date, Boolean, Date> getOffset() {
+        return offset;
     }
 
     public static String getRollOverSuffix(RollOverTypeEnum rollOverTypeEnum, Date date) {

@@ -1,4 +1,4 @@
-package com.sheldon.elasticsearch.core.constant;
+package com.sheldon.elasticsearch.plus.core.constant;
 
 public interface Constants extends ConstantsMapping, ConstantsException {
     String ELASTICSEARCH_PLUS = "elasticsearch-plus";

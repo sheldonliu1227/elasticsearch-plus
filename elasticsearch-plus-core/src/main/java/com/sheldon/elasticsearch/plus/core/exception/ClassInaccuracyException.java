@@ -1,4 +1,4 @@
-package com.sheldon.elasticsearch.core.exception;
+package com.sheldon.elasticsearch.plus.core.exception;
 
 public class ClassInaccuracyException extends Exception {
     public ClassInaccuracyException(String message) {

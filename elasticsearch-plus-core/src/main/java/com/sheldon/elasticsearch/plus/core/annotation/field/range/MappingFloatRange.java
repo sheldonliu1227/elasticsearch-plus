@@ -10,5 +10,5 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 @ElasticSearchField(type = "float_range", javaType = {IpRangeAggregationBuilder.Range[].class, float.class})
-public @interface FloatRange {
+public @interface MappingFloatRange {
 }

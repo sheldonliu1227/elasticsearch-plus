@@ -6,11 +6,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@ElasticSearchField(
-        type = "boolean",
-        javaType = {java.lang.Boolean.class, java.lang.Boolean[].class}
-)
-public @interface Boolean {
+@ElasticSearchField(type = "boolean")
+public @interface MappingBoolean {
     double boost() default 1.0;
 
     boolean doc_values() default true;

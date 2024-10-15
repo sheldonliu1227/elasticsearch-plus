@@ -1,8 +1,6 @@
-package com.sheldon.elasticsearch.core.constant;
+package com.sheldon.elasticsearch.plus.core.constant;
 
 public interface ConstantsMapping {
-    String DYNAMIC = "dynamic";
     String PROPERTIES = "properties";
     String TYPE = "type";
-    String FORMAT = "format";
 }

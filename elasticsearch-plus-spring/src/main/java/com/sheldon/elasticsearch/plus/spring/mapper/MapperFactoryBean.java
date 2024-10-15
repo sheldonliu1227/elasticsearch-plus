@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.mybatis.spring.mapper;
+package com.sheldon.elasticsearch.plus.spring.mapper;
+
+import com.sheldon.elasticsearch.plus.core.binding.MapperRegistry;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.FactoryBean;
 
 import static org.springframework.util.Assert.notNull;
-
-import org.apache.ibatis.executor.ErrorContext;
-import org.apache.ibatis.session.Configuration;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.mybatis.spring.support.SqlSessionDaoSupport;
-import org.springframework.beans.factory.FactoryBean;
 
 /**
  * BeanFactory that enables injection of MyBatis mapper interfaces. It can be set up with a SqlSessionFactory or a
@@ -51,11 +49,13 @@ import org.springframework.beans.factory.FactoryBean;
  *
  * @see SqlSessionTemplate
  */
-public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements FactoryBean<T> {
+public class MapperFactoryBean<T> implements FactoryBean<T> {
 
   private Class<T> mapperInterface;
 
   private boolean addToConfig = true;
+
+  private MapperRegistry mapperRegistry;
 
   public MapperFactoryBean() {
     // intentionally empty
@@ -65,34 +65,13 @@ public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements Factor
     this.mapperInterface = mapperInterface;
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  protected void checkDaoConfig() {
-    super.checkDaoConfig();
-
-    notNull(this.mapperInterface, "Property 'mapperInterface' is required");
-
-    Configuration configuration = getSqlSession().getConfiguration();
-    if (this.addToConfig && !configuration.hasMapper(this.mapperInterface)) {
-      try {
-        configuration.addMapper(this.mapperInterface);
-      } catch (Exception e) {
-        logger.error("Error while adding the mapper '" + this.mapperInterface + "' to configuration.", e);
-        throw new IllegalArgumentException(e);
-      } finally {
-        ErrorContext.instance().reset();
-      }
-    }
-  }
 
   /**
    * {@inheritDoc}
    */
   @Override
   public T getObject() throws Exception {
-    return getSqlSession().getMapper(this.mapperInterface);
+    return mapperRegistry.getMapper(this.mapperInterface);
   }
 
   /**

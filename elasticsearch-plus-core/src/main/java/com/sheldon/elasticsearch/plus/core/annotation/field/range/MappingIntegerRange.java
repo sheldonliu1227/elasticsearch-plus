@@ -9,5 +9,5 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 @ElasticSearchField(type = "integer_range", javaType = { Integer[].class, int.class})
-public @interface IntegerRange {
+public @interface MappingIntegerRange {
 }

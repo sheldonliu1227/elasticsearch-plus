@@ -8,9 +8,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@ElasticSearchField(
-    type = "double" ,
-    javaType = {java.lang.Double.class,  java.lang.Double[].class, double.class, double[].class}
-)
-public @interface Double {
+@ElasticSearchField(type = "double")
+public @interface MappingDouble {
 }

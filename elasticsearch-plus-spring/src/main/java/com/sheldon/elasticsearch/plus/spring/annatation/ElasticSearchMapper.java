@@ -1,39 +1,13 @@
-package com.sheldon.elasticsearch.core.annotation;
-
-import com.sheldon.elasticsearch.core.constant.DynamicTypeEnum;
+package com.sheldon.elasticsearch.plus.spring.annatation;
 
 import java.lang.annotation.*;
 
 /**
- * 用于描述一个索引的元数据信息
+ * 标记一个类是Spring的bean，用以显示注册bean，如果类继承类BaseMapper，无需该注解也能自动注册bean
  */
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface Document {
-    /**
-     * 索引名称
-     */
-    String indexName();
-
-    /**
-     * 索引分片数
-     */
-    int shards() default 10;
-
-    /**
-     * 索引副本数
-     */
-    int replicas() default 1;
-
-    /**
-     * 索引是否动态创建
-     */
-    DynamicTypeEnum dynamicType() default DynamicTypeEnum.FALSE;
-
-    /**
-     * 别名信息
-     */
-    DocumentAlias alias() default @DocumentAlias;
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER })
+public @interface ElasticSearchMapper {
 }

@@ -4,7 +4,6 @@ package com.sheldon.elasticsearch.plus.core.annotation.field;
 import com.sheldon.elasticsearch.plus.core.annotation.field.parameter.FieldDataFrequencyFilter;
 import com.sheldon.elasticsearch.plus.core.annotation.field.parameter.Fields;
 import com.sheldon.elasticsearch.plus.core.annotation.field.parameter.IndexPrefixes;
-import com.sheldon.elasticsearch.plus.core.annotation.field.parameter.NotSimpleParameter;
 
 import java.lang.annotation.*;
 
@@ -12,12 +11,12 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@ElasticSearchField(type = "text", javaType = {String.class, String[].class})
-public @interface Text {
+@ElasticSearchField(type = "text")
+public @interface MappingText {
     /**
      * 指定文本如何被分词，例如standard、whitespace等。
      */
-    String analyzer() default "";
+    String analyzer() default "standard";
 
     /**
      * 用于控制字段在查询时的权重，默认为 1.0。权重较高的字段在相关性计算中会得到更高的分数。
@@ -44,14 +43,12 @@ public @interface Text {
      * fielddata_frequency_filter 是 Elasticsearch 中的一种优化设置，用于减少加载到内存的 fielddata 中的术语（terms）的数量。它主要用于 text 类型字段在启用 fielddata 时，帮助过滤掉频率极高或极低的术语，以节省内存并提升性能。
      * fielddata_frequency_filter 允许你根据术语出现的频率（frequency）来过滤掉不需要的数据，比如那些非常常见或者非常罕见的术语，从而优化内存使用。
      */
-    @NotSimpleParameter
     FieldDataFrequencyFilter fielddata_frequency_filter() default @FieldDataFrequencyFilter(min = 0.01, max = 0.1, minSegmentSize = 1000);
 
 
     /**
      * text 类型字段可以有子字段。你可以定义一个 keyword 子字段，以便对同一个字段既可以进行全文搜索，也可以进行精确匹配。
      */
-    @NotSimpleParameter
     Fields fields() default @Fields;
 
     /**
@@ -70,7 +67,6 @@ public @interface Text {
     /**
      * 通常情况下，Elasticsearch 对 text 字段进行分词后，词项被存储在倒排索引中。但对于前缀查询，默认情况下搜索引擎需要通过扫描大量词项来查找匹配的前缀，这会降低查询性能。通过启用 index_prefixes，Elasticsearch 能够预先为这些前缀建立索引，从而显著提升前缀查询的性能。
      */
-    @NotSimpleParameter
     IndexPrefixes index_prefixes() default @IndexPrefixes;
 
     /**

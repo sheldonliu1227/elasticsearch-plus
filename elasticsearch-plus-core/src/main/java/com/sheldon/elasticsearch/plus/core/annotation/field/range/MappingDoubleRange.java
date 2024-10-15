@@ -9,5 +9,5 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 @ElasticSearchField(type = "double_range", javaType = {Double[].class, double.class})
-public @interface DoubleRange {
+public @interface MappingDoubleRange {
 }

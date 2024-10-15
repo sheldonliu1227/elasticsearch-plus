@@ -1,5 +1,6 @@
 package com.sheldon.elasticsearch.plus.core.xcontent;
 
+import cn.hutool.core.lang.ParameterizedTypeImpl;
 import com.sheldon.elasticsearch.plus.core.annotation.field.ElasticSearchField;
 import com.sheldon.elasticsearch.plus.core.toolkit.MetaInfoUtil;
 import org.elasticsearch.xcontent.XContentBuilder;
@@ -10,14 +11,15 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class DefaultFieldParser<A extends Annotation> extends BasicSimpleParser<A> {
-    private final List<IParser> notSimpleParsers = new ArrayList<>();
+public class FieldParser<A extends Annotation> extends BasicParser<A> {
     private final Field field;
-    private final IParameterParserFactory<A> defaultParameterParserFactory = new DefaultParameterParserFactory<>();
+    private final IParserFactory defaultParameterParserFactory = new DefaultParameterParserFactory<>();
+    private final List<IParser> childrenParsers = new ArrayList<>();
 
-    protected DefaultFieldParser(Field field) throws InvocationTargetException, IllegalAccessException {
+    protected FieldParser(Field field) throws InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchMethodException, ClassNotFoundException {
         this.field = field;
         this.annotation = getFieldAnnotation();
         initialized(annotation);
@@ -34,16 +36,27 @@ public class DefaultFieldParser<A extends Annotation> extends BasicSimpleParser<
         return null;
     }
 
-    protected void initialized(A fieldAnnotation) throws InvocationTargetException, IllegalAccessException {
+    protected void initialized(A fieldAnnotation) throws InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchMethodException, ClassNotFoundException {
         if (null == fieldAnnotation) return;
-        Method[] methods = fieldAnnotation.getClass().getDeclaredMethods();
+        Method[] methods = fieldAnnotation.annotationType().getDeclaredMethods();
         for (Method method : methods) {
-            Class<?> returnType = method.getReturnType();
-            if (!Annotation.class.isAssignableFrom(returnType)) {
-                continue;
+            if (method.getReturnType().isAnnotation() && notDefaultValue(fieldAnnotation, method.getName())) {
+                IParser aiParser = defaultParameterParserFactory.create(method.getName(), method.invoke(fieldAnnotation));
+                childrenParsers.add(aiParser);
             }
-            IParser aiParser = defaultParameterParserFactory.create(method.getName(), (A) method.invoke(fieldAnnotation));
-            notSimpleParsers.add(aiParser);
+            if (method.getReturnType().isAssignableFrom(Class.class)) {
+                Class<?> returnTypeClass = (Class<?>)method.invoke(fieldAnnotation);
+                if (Arrays.asList(returnTypeClass.getInterfaces()).contains(IParser.class)) {
+                    IParser aiParser = ((Class<? extends IParser>)returnTypeClass).newInstance();
+                    childrenParsers.add(aiParser);
+                } else if (IParser.class != returnTypeClass) {
+                    Class<?> collectionType = Class.forName(((ParameterizedTypeImpl) field.getGenericType()).getActualTypeArguments()[0].getTypeName());
+                    childrenParsers.add(new ClassParser(collectionType));
+                } else {
+                    childrenParsers.add(new ClassParser(field.getType()));
+                }
+            }
+
         }
     }
 
@@ -52,9 +65,9 @@ public class DefaultFieldParser<A extends Annotation> extends BasicSimpleParser<
     public XContentBuilder parse(XContentBuilder builder) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
         ElasticSearchField meta = annotation.annotationType().getAnnotation(ElasticSearchField.class);
         builder.startObject(field.getName());
-        builder.field("type", meta.type());
+        builder.field(TYPE, meta.type());
         super.parse(builder);
-        for (IParser notSimpleParser : notSimpleParsers) {
+        for (IParser notSimpleParser : childrenParsers) {
             notSimpleParser.parse(builder);
         }
         builder.endObject();

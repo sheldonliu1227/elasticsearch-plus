@@ -1,4 +1,4 @@
-package com.sheldon.elasticsearch.core.toolkit;
+package com.sheldon.elasticsearch.plus.core.toolkit;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;

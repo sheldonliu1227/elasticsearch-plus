@@ -13,13 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.mybatis.spring.config;
+package com.sheldon.elasticsearch.plus.spring.config;
 
-import java.lang.annotation.Annotation;
-
-import org.mybatis.spring.mapper.ClassPathMapperScanner;
-import org.mybatis.spring.mapper.MapperFactoryBean;
-import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import com.sheldon.elasticsearch.plus.spring.mapper.ClassPathMapperScanner;
+import com.sheldon.elasticsearch.plus.spring.mapper.MapperFactoryBean;
+import com.sheldon.elasticsearch.plus.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
@@ -31,6 +29,8 @@ import org.springframework.beans.factory.xml.XmlReaderContext;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
+
+import java.lang.annotation.Annotation;
 
 /**
  * A {#code BeanDefinitionParser} that handles the element scan of the MyBatis. namespace
@@ -51,8 +51,7 @@ public class MapperScannerBeanDefinitionParser extends AbstractBeanDefinitionPar
   private static final String ATTRIBUTE_ANNOTATION = "annotation";
   private static final String ATTRIBUTE_MARKER_INTERFACE = "marker-interface";
   private static final String ATTRIBUTE_NAME_GENERATOR = "name-generator";
-  private static final String ATTRIBUTE_TEMPLATE_REF = "template-ref";
-  private static final String ATTRIBUTE_FACTORY_REF = "factory-ref";
+  private static final String ATTRIBUTE_CLIENT_REF = "elasticsearch-async-client-ref";
   private static final String ATTRIBUTE_MAPPER_FACTORY_BEAN_CLASS = "mapper-factory-bean-class";
   private static final String ATTRIBUTE_LAZY_INITIALIZATION = "lazy-initialization";
   private static final String ATTRIBUTE_DEFAULT_SCOPE = "default-scope";
@@ -100,8 +99,7 @@ public class MapperScannerBeanDefinitionParser extends AbstractBeanDefinitionPar
       readerContext.error(ex.getMessage(), readerContext.extractSource(element), ex.getCause());
     }
 
-    builder.addPropertyValue("sqlSessionTemplateBeanName", element.getAttribute(ATTRIBUTE_TEMPLATE_REF));
-    builder.addPropertyValue("sqlSessionFactoryBeanName", element.getAttribute(ATTRIBUTE_FACTORY_REF));
+    builder.addPropertyValue("elasticsearchAsyncClientName", element.getAttribute(ATTRIBUTE_CLIENT_REF));
     builder.addPropertyValue("lazyInitialization", element.getAttribute(ATTRIBUTE_LAZY_INITIALIZATION));
     builder.addPropertyValue("defaultScope", element.getAttribute(ATTRIBUTE_DEFAULT_SCOPE));
     builder.addPropertyValue("basePackage", element.getAttribute(ATTRIBUTE_BASE_PACKAGE));

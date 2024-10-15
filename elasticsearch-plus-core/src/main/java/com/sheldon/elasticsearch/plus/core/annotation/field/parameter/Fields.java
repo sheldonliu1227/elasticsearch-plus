@@ -6,15 +6,9 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface Meta {
+public @interface Fields {
 
-    /**
-     * The unit associated with a numeric field: "percent", "byte" or a time unit. By default, a field does not have a unit. Only valid for numeric fields. The convention for percents is to use value 1 to mean 100%.
-     */
-    String unit() default "";
+    String name() default "";
 
-    /**
-     * The type of the metric: "gauge", "counter", "histogram", "summary" or "set". By default, a field does not have a metric type.
-     */
-    String metricType() default "";
+    int ignore_above() default 256;
 }

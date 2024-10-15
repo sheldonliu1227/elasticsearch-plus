@@ -1,4 +1,4 @@
-package com.sheldon.elasticsearch.plus.core.annotation.field.meta;
+package com.sheldon.elasticsearch.plus.core.annotation.field.parameter;
 
 import java.lang.annotation.*;
 
@@ -15,6 +15,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
+
 public @interface FieldDataFrequencyFilter {
     double min();
 

@@ -20,22 +20,22 @@ import org.springframework.context.annotation.Import;
 import java.lang.annotation.*;
 
 /**
- * The Container annotation that aggregates several {@link MapperScan} annotations.
+ * The Container annotation that aggregates several {@link ElasticSearchMapperScan} annotations.
  * <p>
- * Can be used natively, declaring several nested {@link MapperScan} annotations. Can also be used in conjunction with
- * Java 8's support for repeatable annotations, where {@link MapperScan} can simply be declared several times on the
+ * Can be used natively, declaring several nested {@link ElasticSearchMapperScan} annotations. Can also be used in conjunction with
+ * Java 8's support for repeatable annotations, where {@link ElasticSearchMapperScan} can simply be declared several times on the
  * same method, implicitly generating this container annotation.
  *
  * @author Kazuki Shimizu
  *
  * @since 2.0.0
  *
- * @see MapperScan
+ * @see ElasticSearchMapperScan
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Documented
 @Import(MapperScannerRegistrar.RepeatingRegistrar.class)
-public @interface MapperScans {
-  MapperScan[] value();
+public @interface ElasticSearchMapperScans {
+  ElasticSearchMapperScan[] value();
 }

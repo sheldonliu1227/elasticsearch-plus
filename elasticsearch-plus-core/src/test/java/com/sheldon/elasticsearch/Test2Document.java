@@ -1,18 +1,21 @@
 package com.sheldon.elasticsearch;
 
-import com.sheldon.elasticsearch.core.annotation.*;
-import com.sheldon.elasticsearch.core.constant.FieldTypeEnum;
-import com.sheldon.elasticsearch.core.constant.RollOverTypeEnum;
+import com.sheldon.elasticsearch.plus.core.annotation.Document;
+import com.sheldon.elasticsearch.plus.core.annotation.DocumentAlias;
+import com.sheldon.elasticsearch.plus.core.annotation.field.MappingKeyWord;
+import com.sheldon.elasticsearch.plus.core.annotation.field.MappingText;
+import com.sheldon.elasticsearch.plus.core.constant.RollOverTypeEnum;
 
 @Document(
         indexName = "test2_index",
-        alias = @Alias(indexAlias = "test2_alias", rollOverType = RollOverTypeEnum.DAY)
+        alias = @DocumentAlias(indexAlias = "test2_alias", rollOverType = RollOverTypeEnum.DAY)
 )
 public class Test2Document extends TestDocument {
-    @NormalField(fieldType = FieldTypeEnum.TEXT)
+
+    @MappingText(analyzer = "whitespace")
     private String name;
 
-    @NormalField(fieldType = FieldTypeEnum.KEYWORD)
+    @MappingKeyWord(index = false)
     private String remark;
 
 }

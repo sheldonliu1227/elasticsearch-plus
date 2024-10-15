@@ -1,4 +1,4 @@
-package com.sheldon.elasticsearch.core.toolkit;
+package com.sheldon.elasticsearch.plus.core.toolkit;
 
 import java.util.AbstractMap;
 import java.util.Map;

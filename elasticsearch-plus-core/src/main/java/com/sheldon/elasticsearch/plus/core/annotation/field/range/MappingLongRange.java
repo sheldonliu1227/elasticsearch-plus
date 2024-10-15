@@ -9,5 +9,5 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 @ElasticSearchField(type = "long_range", javaType = {Long[].class, long.class})
-public @interface LongRange {
+public @interface MappingLongRange {
 }

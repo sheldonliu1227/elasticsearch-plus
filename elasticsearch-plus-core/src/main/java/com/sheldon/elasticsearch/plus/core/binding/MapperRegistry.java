@@ -13,10 +13,10 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.sheldon.elasticsearch.core.binding;
+package com.sheldon.elasticsearch.plus.core.binding;
 
 
-import com.sheldon.elasticsearch.core.io.ResolverUtil;
+import com.sheldon.elasticsearch.plus.core.io.ResolverUtil;
 
 import java.util.Collection;
 import java.util.Collections;

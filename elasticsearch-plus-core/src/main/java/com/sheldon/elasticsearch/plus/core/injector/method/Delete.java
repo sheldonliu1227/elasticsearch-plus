@@ -1,7 +1,7 @@
-package com.sheldon.elasticsearch.core.injector.method;
+package com.sheldon.elasticsearch.plus.core.injector.method;
 
-import com.sheldon.elasticsearch.core.AbstractBaseObject;
-import com.sheldon.elasticsearch.core.injector.AbstractMethod;
+import com.sheldon.elasticsearch.plus.core.AbstractBaseObject;
+import com.sheldon.elasticsearch.plus.core.injector.AbstractMethod;
 
 import java.util.concurrent.CompletableFuture;
 

@@ -1,6 +1,6 @@
-package com.sheldon.elasticsearch.core.annotation;
+package com.sheldon.elasticsearch.plus.core.annotation;
 
-import com.sheldon.elasticsearch.core.constant.RollOverTypeEnum;
+import com.sheldon.elasticsearch.plus.core.constant.RollOverTypeEnum;
 
 import java.lang.annotation.*;
 

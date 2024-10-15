@@ -13,17 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.mybatis.spring.annotation;
+package com.sheldon.elasticsearch.plus.spring.annatation;
 
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.mybatis.spring.mapper.ClassPathMapperScanner;
-import org.mybatis.spring.mapper.MapperFactoryBean;
-import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import com.sheldon.elasticsearch.plus.spring.mapper.MapperFactoryBean;
+import com.sheldon.elasticsearch.plus.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
@@ -38,6 +31,12 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * A {@link ImportBeanDefinitionRegistrar} to allow annotation configuration of MyBatis mapper scanning. Using
  * an @Enable annotation allows beans to be registered via @Component configuration, whereas implementing
@@ -47,8 +46,6 @@ import org.springframework.util.StringUtils;
  * @author Eduardo Macarron
  * @author Putthiphong Boonphong
  *
- * @see MapperFactoryBean
- * @see ClassPathMapperScanner
  *
  * @since 1.2.0
  */
@@ -71,7 +68,7 @@ public class MapperScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
   @Override
   public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
     AnnotationAttributes mapperScanAttrs = AnnotationAttributes
-        .fromMap(importingClassMetadata.getAnnotationAttributes(MapperScan.class.getName()));
+        .fromMap(importingClassMetadata.getAnnotationAttributes(ElasticSearchMapperScan.class.getName()));
     if (mapperScanAttrs != null) {
       registerBeanDefinitions(importingClassMetadata, mapperScanAttrs, registry,
           generateBaseBeanName(importingClassMetadata, 0));
@@ -154,7 +151,7 @@ public class MapperScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
   }
 
   /**
-   * A {@link MapperScannerRegistrar} for {@link MapperScans}.
+   * A {@link MapperScannerRegistrar} for {@link ElasticSearchMapperScans}.
    *
    * @since 2.0.0
    */
@@ -165,7 +162,7 @@ public class MapperScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
       AnnotationAttributes mapperScansAttrs = AnnotationAttributes
-          .fromMap(importingClassMetadata.getAnnotationAttributes(MapperScans.class.getName()));
+          .fromMap(importingClassMetadata.getAnnotationAttributes(ElasticSearchMapperScans.class.getName()));
       if (mapperScansAttrs != null) {
         AnnotationAttributes[] annotations = mapperScansAttrs.getAnnotationArray("value");
         for (int i = 0; i < annotations.length; i++) {

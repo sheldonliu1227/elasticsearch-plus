@@ -1,6 +1,6 @@
-package com.sheldon.elasticsearch.core.query;
+package com.sheldon.elasticsearch.plus.core.query;
 
-import com.sheldon.elasticsearch.core.AbstractBaseObject;
+import com.sheldon.elasticsearch.plus.core.AbstractBaseObject;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 
 public abstract class QueryWrapper<T extends AbstractBaseObject> {

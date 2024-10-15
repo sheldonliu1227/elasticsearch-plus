@@ -6,8 +6,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@ElasticSearchField(type = "keyword", javaType = String.class)
-public @interface KeyWord {
+@ElasticSearchField(type = "keyword")
+public @interface MappingKeyWord {
     /**
      * 是否需要存储该字段
      */

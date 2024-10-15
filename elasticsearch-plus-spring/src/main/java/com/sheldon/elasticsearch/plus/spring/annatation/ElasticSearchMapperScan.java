@@ -72,8 +72,8 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Documented
 @Import(MapperScannerRegistrar.class)
-@Repeatable(MapperScans.class)
-public @interface MapperScan {
+@Repeatable(ElasticSearchMapperScans.class)
+public @interface ElasticSearchMapperScan {
 
   /**
    * Alias for the {@link #basePackages()} attribute. Allows for more concise annotation declarations e.g.:

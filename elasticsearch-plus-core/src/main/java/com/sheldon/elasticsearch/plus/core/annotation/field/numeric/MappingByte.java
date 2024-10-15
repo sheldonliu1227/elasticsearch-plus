@@ -12,5 +12,5 @@ import java.lang.annotation.*;
     type = "byte" ,
     javaType = {java.lang.Byte.class,  java.lang.Byte[].class, byte.class, byte[].class}
 )
-public @interface Byte {
+public @interface MappingByte {
 }

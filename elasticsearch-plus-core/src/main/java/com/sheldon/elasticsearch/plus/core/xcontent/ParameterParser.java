@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 
-public class ParameterSimpleParser<A extends Annotation> extends BasicSimpleParser<A> {
+public class ParameterParser<A extends Annotation> extends BasicParser<A> {
     private final String parameterName;
 
-    public ParameterSimpleParser(String parameterName, A annotation) {
+    public ParameterParser(String parameterName, A annotation) {
         super();
         this.annotation = annotation;
         this.parameterName = parameterName;

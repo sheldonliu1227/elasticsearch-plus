@@ -1,15 +1,13 @@
 package com.sheldon.elasticsearch.plus.core.annotation.field;
 
-import jakarta.json.JsonObject;
-
 import java.lang.annotation.*;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@ElasticSearchField(type = "geo_shape", javaType = {String.class, JsonObject.class})
-public @interface GeoShape {
+@ElasticSearchField(type = "geo_shape")
+public @interface MappingGeoShape {
 
     String tree() default "quadtree";
 

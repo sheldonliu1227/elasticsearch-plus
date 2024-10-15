@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.sheldon.elasticsearch.core.binding;
+package com.sheldon.elasticsearch.plus.core.binding;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;

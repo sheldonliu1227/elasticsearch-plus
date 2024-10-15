@@ -6,9 +6,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@ElasticSearchField(type = "point", javaType = {String.class, String[].class})
-public @interface Point {
-
+@ElasticSearchField(type = "point")
+public @interface MappingPoint {
     boolean ignore_malformed() default false;
 
     boolean ignore_z_value() default true;

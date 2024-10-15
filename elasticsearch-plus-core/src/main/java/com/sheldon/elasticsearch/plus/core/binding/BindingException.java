@@ -1,4 +1,4 @@
-package com.sheldon.elasticsearch.core.binding;
+package com.sheldon.elasticsearch.plus.core.binding;
 
 public class BindingException extends RuntimeException {
 
